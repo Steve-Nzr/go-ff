@@ -1,0 +1,18 @@
+all: update deploy
+
+.PHONY: install
+install:
+	sh ./scripts/boostrap-env.sh
+
+.PHONY: update
+update:
+	@go mod tidy
+	bazel run //:gazelle -- update-repos -from_file=go.mod
+
+.PHONY: deploy
+deploy:
+	ibazel run //deployments/kubernetes:go-ff.apply
+
+.PHONY: clear
+clear:
+	bazel run //deployments/kubernetes:go-ff.delete

@@ -1,0 +1,10 @@
+load("@k8s_deploy//:defaults.bzl", "k8s_deploy")
+
+k8s_deploy(
+    name = "moving",
+    images = {
+        "moving:latest": "//cmd/moving",
+    },
+    template = ":service.yaml",
+    visibility = ["//visibility:public"],
+)
